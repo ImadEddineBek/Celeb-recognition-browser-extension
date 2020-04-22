@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Download Images</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Abril+Fatface');
+
+        body {
+            min-width: 300px;
+            font-size: 15px;
+        }
+
+        #name {
+            /*display: inline-block;*/
+            /*position: relative;*/
+            vertical-align: middle;
+        " display: inline-block;
+        }
+
+        input {
+            margin: 5px;
+            outline: none;
+        }
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        img.logo {
+            border-radius: 50%;
+        }
+
+        h3 {
+            text-align: center;
+        }
+
+        body {
+            background-color: rgba(26, 41, 52, 0.54);
+        }
+
+        .button {
+            display: inline-block;
+            border-radius: 4px;
+            background-color: rgba(54, 81, 114, 0.71);
+            border: none;
+            color: #FFFFFF;
+            text-align: center;
+            font-size: 28px;
+            padding: 20px;
+            width: 300px;
+            transition: all 0.5s;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .button span {
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+            transition: 0.5s;
+        }
+
+        .button span:after {
+            content: '\00bb';
+            position: absolute;
+            opacity: 0;
+            top: 0;
+            right: -20px;
+            transition: 0.5s;
+        }
+
+        .button:hover span {
+            padding-right: 25px;
+        }
+
+        .button:hover span:after {
+            opacity: 1;
+            right: 0;
+        }
+
+        /*.square {*/
+        /*    height: 175px;*/
+        /*    width: 175px;*/
+        /*    margin: 10px;*/
+        /*}*/
+
+        ol {
+            list-style: none;
+            counter-reset: my-awesome-counter;
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0;
+            padding: 0;
+        }
+
+        ol li {
+            counter-increment: my-awesome-counter;
+            display: flex;
+            width: 50%;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        ol li::before {
+            content: "0" counter(my-awesome-counter);
+            font-weight: bold;
+            font-size: 3rem;
+            margin-right: 0.5rem;
+            font-family: 'Abril Fatface', serif;
+            line-height: 1;
+        }
+
+
+        body {
+            padding: 1rem;
+            font-family: sans-serif;
+        }
+
+        .dropbtn {
+            background-color: rgba(54, 81, 114, 0.71);
+            color: white;
+            padding: 16px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* The container <div> - needed to position the dropdown content */
+        .dropdown {
+            /*position: relative;*/
+            display: inline-block;
+            position: relative;
+            left: 25%;
+            /*top: 50%;*/
+
+        }
+
+        /* Dropdown Content (Hidden by Default) */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        /* Links inside the dropdown */
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        /* Change color of dropdown links on hover */
+        .dropdown-content a:hover {
+            background-color: #f1f1f1
+        }
+
+        /* Show the dropdown menu on hover */
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Change the background color of the dropdown button when the dropdown content is shown */
+        .dropdown:hover .dropbtn {
+            background-color: rgba(54, 81, 114, 0.71);
+        }
+
+
+
+        .draw-border {
+            box-shadow: inset 0 0 0 4px #58afd1;
+            color: #58afd1;
+            -webkit-transition: color 0.25s 0.0833333333s;
+            transition: color 0.25s 0.0833333333s;
+            position: relative;
+        }
+
+        .draw-border::before, .draw-border::after {
+            border: 0 solid transparent;
+            box-sizing: border-box;
+            content: '';
+            pointer-events: none;
+            position: absolute;
+            width: 0;
+            height: 0;
+            bottom: 0;
+            right: 0;
+        }
+
+        .draw-border::before {
+            border-bottom-width: 4px;
+            border-left-width: 4px;
+        }
+
+        .draw-border::after {
+            border-top-width: 4px;
+            border-right-width: 4px;
+        }
+
+        .draw-border:hover {
+            color: #ffe593;
+        }
+
+        .draw-border:hover::before, .draw-border:hover::after {
+            border-color: #ffe593;
+            -webkit-transition: border-color 0s, width 0.25s, height 0.25s;
+            transition: border-color 0s, width 0.25s, height 0.25s;
+            width: 100%;
+            height: 100%;
+        }
+
+        .draw-border:hover::before {
+            -webkit-transition-delay: 0s, 0s, 0.25s;
+            transition-delay: 0s, 0s, 0.25s;
+        }
+
+        .draw-border:hover::after {
+            -webkit-transition-delay: 0s, 0.25s, 0s;
+            transition-delay: 0s, 0.25s, 0s;
+        }
+
+        .btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            line-height: 1.5;
+            font: 700 1.2rem 'Roboto Slab', sans-serif;
+            padding: 1em 2em;
+            letter-spacing: 0.05rem;
+        }
+
+        .btn:focus {
+            outline: 2px dotted #55d7dc;
+        }
+
+
+    </style>
+</head>
+
+<div align="center">
+    <div style="display: inline-block"><img class="logo" src="./images/logo.png" width="50" height="50"></div>
+    <div style="display: inline-block"><h3 id="name">Who is this?</h3></div>
+</div>
+
+<hr>
+<ol>
+    <li>Choose the Type from the drop menu</li>
+    <li>Choose the images by pressing</li>
+    <li>Press the identify button</li>
+</ol>
+<hr>
+<div class="dropdown">
+    <button class="dropbtn">Choose Type</button>
+    <div class="dropdown-content">
+        <a id='choose_friends'>Friends</a>
+        <a id='choose_celebrities'>Celebrity</a>
+        <a id='choose_full'>FULL</a>
+    </div>
+</div>
+<hr>
+<button id="options_button" class="button" style="vertical-align:middle"><span>Identify them </span></button>
+<hr>
+<br>
+<div id="image_div"></div>
+
+<script src="popup.js"></script>
+</body>
+</html>

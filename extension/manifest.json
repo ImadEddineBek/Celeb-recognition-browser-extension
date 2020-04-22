@@ -1,0 +1,27 @@
+{
+  "name": "Getting Started Example",
+  "version": "1.0",
+  "description": "Build an Extension!",
+  "manifest_version": 2,
+  "icons": {
+    "128": "logo.png"
+  },
+  "browser_action": {
+    "default_title": "Who is this famous guy whose name probably is written on the page?",
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "scripts": [
+      "background.js"
+    ],
+    "persistent": false
+  },
+  "options_page": "options.html",
+  "permissions": [
+    "https://*/*",
+    "http://*/*",
+    "storage",
+    "declarativeContent",
+    "activeTab"
+  ]
+}

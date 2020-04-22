@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Options: Download Images</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        #options_div {
+            margin: 30px;
+        }
+
+        #saved_images {
+            /*display: flex;*/
+            /*align-items: center;*/
+            /*justify-content: center;*/
+        }
+
+        /*img {*/
+        /*    max-width: 400px;*/
+        /*    max-height: 500px;*/
+        /*    min-width: 400px;*/
+        /*    min-height: 500px;*/
+        /*}*/
+
+        .square {
+            height: 650px;
+            width: 400px;
+            margin: 10px;
+        }
+
+        .button {
+            background-color: #4f676d;
+            border: none;
+            color: white;
+            padding: 5px 11px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 11px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+
+        body, h1 {
+            font-family: "Montserrat", sans-serif
+        }
+
+        /*img {*/
+        /*    margin-bottom: -7px*/
+        /*}*/
+
+        .w3-row-padding img {
+            margin-bottom: 12px
+        }
+
+
+        .hvrbox_background {
+            width: 400px;
+            height: 250px;
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+        }
+
+        /*
+ * 	Author: Piotr Elmanowski
+ *  Company: Frontoes.com
+ *  Distributed and described: css-workshop.com
+ *	v1.0
+ */
+
+        .hvrbox,
+        .hvrbox * {
+            box-sizing: border-box;
+        }
+
+        .hvrbox {
+            position: relative;
+            display: inline-block;
+            overflow: hidden;
+            max-width: 100%;
+            height: auto;
+        }
+
+        .hvrbox img {
+            max-width: 100%;
+        }
+
+        .hvrbox_background {
+            /*width: 400px;*/
+            /*height: 250px;*/
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+        }
+
+        .hvrbox .hvrbox-layer_bottom {
+            display: block;
+        }
+
+        .hvrbox .hvrbox-layer_top {
+            opacity: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            /*padding: 15px;*/
+            -moz-transition: all 0.4s ease-in-out 0s;
+            -webkit-transition: all 0.4s ease-in-out 0s;
+            -ms-transition: all 0.4s ease-in-out 0s;
+            transition: all 0.4s ease-in-out 0s;
+        }
+
+        .hvrbox:hover .hvrbox-layer_top,
+        .hvrbox.active .hvrbox-layer_top {
+            opacity: 1;
+        }
+
+        .hvrbox .hvrbox-text {
+            text-align: center;
+            font-size: 18px;
+            display: inline-block;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -moz-transform: translate(-50%, -50%);
+            -webkit-transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+        }
+
+        .hvrbox .hvrbox-text_mobile {
+            font-size: 15px;
+            border-top: 1px solid rgb(179, 179, 179); /* for old browsers */
+            border-top: 1px solid rgba(179, 179, 179, 0.7);
+            margin-top: 5px;
+            padding-top: 2px;
+            display: none;
+        }
+
+        .hvrbox.active .hvrbox-text_mobile {
+            display: block;
+        }
+
+        .hvrbox .hvrbox-layer_image {
+            padding: 0;
+            background: none;
+        }
+
+        .hvrbox .hvrbox-layer_slideup {
+            -moz-transform: translateY(100%);
+            -webkit-transform: translateY(100%);
+            -ms-transform: translateY(100%);
+            transform: translateY(100%);
+        }
+
+        .hvrbox:hover .hvrbox-layer_slideup,
+        .hvrbox.active .hvrbox-layer_slideup {
+            -moz-transform: translateY(0);
+            -webkit-transform: translateY(0);
+            -ms-transform: translateY(0);
+            transform: translateY(0);
+        }
+
+        .hvrbox .hvrbox-layer_slidedown {
+            -moz-transform: translateY(-100%);
+            -webkit-transform: translateY(-100%);
+            -ms-transform: translateY(-100%);
+            transform: translateY(-100%);
+        }
+
+        .hvrbox:hover .hvrbox-layer_slidedown,
+        .hvrbox.active .hvrbox-layer_slidedown {
+            -moz-transform: translateY(0);
+            -webkit-transform: translateY(0);
+            -ms-transform: translateY(0);
+            transform: translateY(0);
+        }
+
+        .hvrbox .hvrbox-layer_slideleft {
+            -moz-transform: translateX(100%);
+            -webkit-transform: translateX(100%);
+            -ms-transform: translateX(100%);
+            transform: translateX(100%);
+        }
+
+        .hvrbox:hover .hvrbox-layer_slideleft,
+        .hvrbox.active .hvrbox-layer_slideleft {
+            -moz-transform: translateX(0);
+            -webkit-transform: translateX(0);
+            -ms-transform: translateX(0);
+            transform: translateX(0);
+        }
+
+        .hvrbox .hvrbox-layer_slideright {
+            -moz-transform: translateX(-100%);
+            -webkit-transform: translateX(-100%);
+            -ms-transform: translateX(-100%);
+            transform: translateX(-100%);
+        }
+
+        .hvrbox:hover .hvrbox-layer_slideright,
+        .hvrbox.active .hvrbox-layer_slideright {
+            -moz-transform: translateX(0);
+            -webkit-transform: translateX(0);
+            -ms-transform: translateX(0);
+            transform: translateX(0);
+        }
+
+        .hvrbox .hvrbox-layer_scale {
+            border-radius: 50%;
+            -moz-transform: scale(0);
+            -webkit-transform: scale(0);
+            -ms-transform: scale(0);
+            transform: scale(0);
+        }
+
+        .hvrbox:hover .hvrbox-layer_scale,
+        .hvrbox.active .hvrbox-layer_scale {
+            border-radius: 0%;
+            -moz-transform: scale(1);
+            -webkit-transform: scale(1);
+            -ms-transform: scale(1);
+            transform: scale(1);
+        }
+
+        .hvrbox .hvrbox-layer_rotate {
+            border-radius: 50%;
+            -moz-transform: rotateZ(0);
+            -webkit-transform: rotateZ(0);
+            -ms-transform: rotateZ(0);
+            transform: rotateZ(0);
+        }
+
+        .hvrbox:hover .hvrbox-layer_rotate,
+        .hvrbox.active .hvrbox-layer_rotate {
+            border-radius: 0%;
+            -moz-transform: rotateZ(360deg);
+            -webkit-transform: rotateZ(360deg);
+            -ms-transform: rotateZ(360deg);
+            transform: rotateZ(360deg);
+        }
+
+        .hvrbox .hvrbox-layer_scale-rotate {
+            border-radius: 50%;
+            -moz-transform: scale(0) rotateZ(0);
+            -webkit-transform: scale(0) rotateZ(0);
+            -ms-transform: scale(0) rotateZ(0);
+            transform: scale(0) rotateZ(0);
+        }
+
+        .hvrbox:hover .hvrbox-layer_scale-rotate,
+        .hvrbox.active .hvrbox-layer_scale-rotate {
+            border-radius: 0%;
+            -moz-transform: scale(1) rotateZ(360deg);
+            -webkit-transform: scale(1) rotateZ(360deg);
+            -ms-transform: scale(1) rotateZ(360deg);
+            transform: scale(1) rotateZ(360deg);
+        }
+
+    </style>
+</head>
+<body>
+
+
+<!--<div id="options_div">-->
+<!--    <button id="delete_button">Delete Saved Images</button>-->
+<!--</div>-->
+
+
+<!-- !PAGE CONTENT! -->
+<div class="w3-content" style="max-width:1500px">
+
+    <!-- Header -->
+    <div class="w3-opacity">
+        <span class="w3-button w3-xxlarge w3-white w3-right" onclick="w3_open()"><i class="fa fa-bars"></i></span>
+        <div class="w3-clear"></div>
+        <header class="w3-center w3-margin-bottom">
+            <h1><b>Who is this?</b></h1>
+            <p><b>A service made by BEKKOUCH for Information Retrieval.</b></p>
+            <p class="w3-padding-16">
+                <button id="delete_button" class="w3-button w3-black">Delete Saved Images</button>
+            </p>
+        </header>
+    </div>
+
+    <!-- Photo Grid -->
+    <div class="w3-row" id="myGrid" style="margin-bottom:128px">
+        <div id="grid-1" class="w3-third">
+            <!--            <img src="/w3images/rocks.jpg" style="width:100%">-->
+            <!--            <img src="/w3images/sound.jpg" style="width:100%">-->
+            <!--            <img src="/w3images/woods.jpg" style="width:100%">-->
+            <!--            <img src="/w3images/rock.jpg" style="width:100%">-->
+            <!--            <img src="/w3images/nature.jpg" style="width:100%">-->
+            <!--            <img src="/w3images/mist.jpg" style="width:100%">-->
+        </div>
+
+        <div id="grid-2" class="w3-third">
+            <!--            <img src="/w3images/coffee.jpg" style="width:100%">-->
+            <!--            <img src="/w3images/bridge.jpg" style="width:100%">-->
+            <!--            <img src="/w3images/notebook.jpg" style="width:100%">-->
+            <!--            <img src="/w3images/london.jpg" style="width:100%">-->
+            <!--            <img src="/w3images/rocks.jpg" style="width:100%">-->
+            <!--            <img src="/w3images/avatar_g.jpg" style="width:100%">-->
+        </div>
+
+        <div id="grid-3" class="w3-third">
+            <!--            <img src="/w3images/mist.jpg" style="width:100%">-->
+            <!--            <img src="/w3images/workbench.jpg" style="width:100%">-->
+            <!--            <img src="/w3images/gondol.jpg" style="width:100%">-->
+            <!--            <img src="/w3images/skies.jpg" style="width:100%">-->
+            <!--            <img src="/w3images/lights.jpg" style="width:100%">-->
+            <!--            <img src="/w3images/workshop.jpg" style="width:100%">-->
+        </div>
+    </div>
+
+    <!-- End Page Content -->
+</div>
+<div id="savedImages"></div>
+
+<!-- Footer -->
+<footer class="w3-container w3-padding-64 w3-light-grey w3-center w3-opacity w3-xlarge" style="margin-top:128px">
+    <i class="fa fa-facebook-official w3-hover-opacity"></i>
+    <i class="fa fa-instagram w3-hover-opacity"></i>
+    <i class="fa fa-snapchat w3-hover-opacity"></i>
+    <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+    <i class="fa fa-twitter w3-hover-opacity"></i>
+    <i class="fa fa-linkedin w3-hover-opacity"></i>
+    <p class="w3-medium">Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank"
+                                       class="w3-hover-text-green">w3.css</a></p>
+</footer>
+<input type="checkbox" id="thumbnails" style="display:none"> <span
+        style="display:none">Display Images as Thumbnails</span>
+
+<input type="checkbox" id="save_images" style="display:none"> <span style="display:none">Save Downloaded Images</span>
+
+
+<script src="options.js"></script>
+<!--<script>-->
+<!--    // Toggle grid padding-->
+<!--    function myFunction() {-->
+<!--    }-->
+
+<!--</script>-->
+
+<!--<div class="hvrbox">-->
+<!--	<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Angelina_Jolie_2_June_2014_%28cropped%29.jpg/440px-Angelina_Jolie_2_June_2014_%28cropped%29.jpg" alt="Mountains" class="hvrbox-layer_bottom">-->
+<!--	<div class="hvrbox-layer_top">-->
+<!--		<div class="hvrbox-text">Jennifer.</div>-->
+<!--	</div>-->
+<!--</div>-->
+</body>
+</html>
