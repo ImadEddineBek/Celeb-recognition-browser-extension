@@ -105,8 +105,8 @@ celebrities_type.onclick = function () {
 };
 
 
-let full_type = document.getElementById('choose_full');
-
-full_type.onclick = function () {
-    storeOption('type', 'full');
-};
+// let full_type = document.getElementById('choose_full');
+//
+// full_type.onclick = function () {
+//     storeOption('type', 'full');
+// };

@@ -8,13 +8,16 @@
 let saveImagesOption = document.getElementById('save_images');
 // Selects thumbnailOption checkbox element
 let thumbnailOption = document.getElementById('thumbnails');
+let type_index = 'celebrities';
 
 function setCheckbox(data, checkbox) {
     checkbox.checked = data;
 };
 chrome.storage.local.get('type', function (data) {
     var bkg = chrome.extension.getBackgroundPage();
-    bkg.console.log(data)
+    bkg.console.log(data);
+    type_index = data.type
+
 });
 // Gets thumbnails and saveImages value from storage
 chrome.storage.local.get(['saveImages', 'thumbnails'], function (data) {
@@ -62,7 +65,10 @@ chrome.storage.local.get('savedImages', function (element) {
         newImage.style.width = '100%';
 
         const Http = new XMLHttpRequest();
-        const url = 'http://0.0.0.0:5000/who?type=celeberity&src='.concat(encodeURIComponent(image));
+
+        const url = 'http://0.0.0.0:5000/who?type='.concat(type_index).concat('&src=').concat(encodeURIComponent(image));
+        var bkg = chrome.extension.getBackgroundPage();
+        bkg.console.log(url);
         Http.open("GET", url);
         Http.send();
 
@@ -73,10 +79,15 @@ chrome.storage.local.get('savedImages', function (element) {
         hrtext.innerText = 'unknown yet';
 
         Http.onreadystatechange = (e) => {
-            // var bkg = chrome.extension.getBackgroundPage();
-            // bkg.console.log(Http.responseText);
-            hrtext.innerText = Http.responseText
+            var bkg = chrome.extension.getBackgroundPage();
+            bkg.console.log(Http);
+            if (Http.responseText.length < 2) {
+                hrtext.innerText = "Server Side issues, It's OK bro"
+            } else {
+                hrtext.innerText = Http.responseText
+            }
         };
+
         hvboxdiv.appendChild(hrtext);
 
         hvdiv.appendChild(newImage);

@@ -1,3 +1,4 @@
+import argparse
 import random, time, sys
 
 import boto3
@@ -17,10 +18,18 @@ import os
 import pickle
 from embeddings import Embedder
 from index import Node
+from flask import Flask, request, jsonify, Response
+from flask_cors import CORS
+from waitress import serve
 
 EMBEDDING_SIZE = 512
 BUCKET_NAME = 'info-ret-final-project'
 REMOTE_DIRECTORY_NAME = 'data'
+DEBUG_ENV = bool(os.getenv("DEBUG_ENV", False))
+
+
+# PORT = int(os.getenv("PORT", 5001))
+# INDEX_TYPE = os.getenv("INDEX_TYPE", 'celebs.index')
 
 
 def collate_fn(x):
@@ -46,7 +55,7 @@ def build_kd_tree(dataset_folder):
     embder = Embedder()
     R = []
     for x, y in loader:
-        embedding = embder.embed_one(x)
+        embedding = embder.embed_one(x)[0]
         if embedding is not None:
             R.append((embedding, y))
     kdtree = Node(K=EMBEDDING_SIZE).build_kd_tree(R)
@@ -71,8 +80,6 @@ def build_indexes():
         build_kd_tree(dataset_folder)
 
 
-# build_indexes()
-
 
 def get_index(index_type):
     with open('indexes/' + index_type, 'rb') as index_file:
@@ -87,13 +94,15 @@ def get_index(index_type):
     return kdtree, idx_to_class, data
 
 
-def get_name(embedding, index_type):
-    kdtree, idx_to_class, _ = get_index(index_type)
-    return idx_to_class[kdtree.get_nn(embedding, 1)[0][1]]
+app = Flask(__name__)
 
 
-def get_brute_force(embedding, index_type):
-    _, idx_to_class, data = get_index(index_type)
+@app.route("/who_brute", methods=["GET"])
+def get_brute_force():
+    embedding = request.args.get('embedding')
+    embedding = embedding.replace('[', '')
+    embedding = embedding.replace(']', '')
+    embedding = np.fromstring(embedding, dtype=float, sep=', ')
     closest = 0
     dist = np.inf
     for emb, y in data:
@@ -101,5 +110,34 @@ def get_brute_force(embedding, index_type):
         if cur < dist:
             dist = cur
             closest = y
-
+    logger.info(idx_to_class[closest] + '  ' + str(dist))
     return idx_to_class[closest]
+
+
+@app.route("/who_tree", methods=["GET"])
+def get_name():
+    embedding = request.args.get('embedding')
+    return idx_to_class[kdtree.get_nn(embedding, 1)[0][1]]
+
+
+CORS(app)
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Index which can be used to get names.')
+    parser.add_argument('--port', type=int, default=5000, help='port number')
+    parser.add_argument('--index_type', type=str, default='celebs.index', help='type of index')
+    # parser.add_argument('--sum', dest='accumulate', action='store_const',
+    #                     const=sum, default=max,
+    #                     help='sum the integers (default: find the max)')
+
+    args = parser.parse_args()
+    PORT = args.port
+    INDEX_TYPE = args.index_type
+    kdtree, idx_to_class, data = get_index(INDEX_TYPE)
+
+    # print(PORT, INDEX_TYPE)
+    if not DEBUG_ENV:
+        serve(app, host='0.0.0.0', port=PORT)
+
+    else:
+        app.run(debug=True, host='0.0.0.0', port=PORT)

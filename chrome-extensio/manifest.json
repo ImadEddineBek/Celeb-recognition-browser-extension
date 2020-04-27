@@ -1,6 +1,6 @@
 {
-  "name": "Download Images",
-  "description": "Displays all webpage images and allows user to download",
+  "name": "Who's this?",
+  "description": "A service made by BEKKOUCH to help you identify the person whos name you just entered",
   "version": "1.0",
   "manifest_version": 2,
   "page_action": {
