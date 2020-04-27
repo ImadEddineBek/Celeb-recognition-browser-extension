@@ -1,4 +1,5 @@
-from models import MTCNN, InceptionResnetV1
+from models.mtcnn import MTCNN
+from models.inception_resnet_v1 import InceptionResnetV1
 import torch
 from loguru import logger
 from torch.utils.data import DataLoader

@@ -15,7 +15,7 @@ function setCheckbox(data, checkbox) {
 };
 chrome.storage.local.get('type', function (data) {
     var bkg = chrome.extension.getBackgroundPage();
-    bkg.console.log(data);
+    // bkg.console.log(data);
     type_index = data.type
 
 });
@@ -68,7 +68,7 @@ chrome.storage.local.get('savedImages', function (element) {
 
         const url = 'http://0.0.0.0:5000/who?type='.concat(type_index).concat('&src=').concat(encodeURIComponent(image));
         var bkg = chrome.extension.getBackgroundPage();
-        bkg.console.log(url);
+        // bkg.console.log(url);
         Http.open("GET", url);
         Http.send();
 
@@ -80,7 +80,7 @@ chrome.storage.local.get('savedImages', function (element) {
 
         Http.onreadystatechange = (e) => {
             var bkg = chrome.extension.getBackgroundPage();
-            bkg.console.log(Http);
+            // bkg.console.log(Http);
             if (Http.responseText.length < 2) {
                 hrtext.innerText = "Server Side issues, It's OK bro"
             } else {
@@ -96,7 +96,7 @@ chrome.storage.local.get('savedImages', function (element) {
         hvdiv.style.width = '100%';
         hvdiv.addEventListener('click', function () {
             var bkg = chrome.extension.getBackgroundPage();
-            bkg.console.log(image);
+            // bkg.console.log(image);
             var x = document.getElementById("myGrid");
             if (x.className === "w3-row") {
                 x.className = "w3-row-padding";

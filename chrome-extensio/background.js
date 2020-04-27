@@ -11,7 +11,7 @@ let initialState = {
     'thumbnails': false,
     'saveImages': true
 };
-console.log("here ");
+// console.log("here ");
 // Set extension setting on installation
 chrome.runtime.onInstalled.addListener(function () {
     chrome.declarativeContent.onPageChanged.removeRules(undefined, function () {

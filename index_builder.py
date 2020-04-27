@@ -8,7 +8,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.spatial import distance
 import pickle
-from facenet_pytorch import MTCNN, InceptionResnetV1
+from models.mtcnn import MTCNN
+from models.inception_resnet_v1 import InceptionResnetV1
 import torch
 from torch.utils.data import DataLoader
 from torchvision import datasets

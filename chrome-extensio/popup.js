@@ -20,13 +20,13 @@ function addImage(url) {
         let downloadsArray = result.savedImages || [];
         // Images are added
         downloadsArray.push(url);
-        console.log("here do you see me");
+        // console.log("here do you see me");
         // Chrome stores the new array with the new image
         chrome.storage.local.set({'savedImages': downloadsArray}, function () {
             if (chrome.runtime.lastError) {
-                console.log(chrome.runtime.lastError);
+                // console.log(chrome.runtime.lastError);
             } else {
-                console.log('Image saved successfully');
+                // console.log('Image saved successfully');
             }
             ;
         });
@@ -43,7 +43,7 @@ function setUp(array) {
                 let newImage = document.createElement('img');
                 let lineBreak = document.createElement('br');
                 newImage.src = src;
-                console.log(newImage)
+                // console.log(newImage)
                 // Add an onclick event listener
                 newImage.addEventListener('click', function () {
                     // Downloads and image when it is clicked on
@@ -87,6 +87,10 @@ optionsButton.onclick = function () {
 
 function storeOption(optionName, optionValue) {
     let data = {};
+    // var bkg = chrome.extension.getBackgroundPage();
+    // bkg.console.log(optionName);
+    // bkg.console.log(optionValue);
+
     data[optionName] = optionValue;
     chrome.storage.local.set(data);
 };
@@ -101,6 +105,7 @@ friends_type.onclick = function () {
 let celebrities_type = document.getElementById('choose_celebrities');
 
 celebrities_type.onclick = function () {
+
     storeOption('type', 'celebrities');
 };
 
