@@ -1,5 +1,6 @@
 import argparse
 import random, time, sys
+from configparser import ConfigParser
 
 import boto3
 from loguru import logger
@@ -23,10 +24,19 @@ from flask import Flask, request, jsonify, Response
 from flask_cors import CORS
 from waitress import serve
 
+config = ConfigParser()
+config.read('config.ini')
+FACE_THRESHOLD = config.getfloat('main', 'face_threshold')
+METHOD = config.get('main', 'method')
+CUDA = config.getboolean('main', 'cuda')
+DEBUG_ENV = config.getboolean('main', 'debug')
+
 EMBEDDING_SIZE = 512
 BUCKET_NAME = 'info-ret-final-project'
 REMOTE_DIRECTORY_NAME = 'data'
-DEBUG_ENV = bool(os.getenv("DEBUG_ENV", False))
+
+
+# DEBUG_ENV = bool(os.getenv("DEBUG_ENV", False))
 
 
 # PORT = int(os.getenv("PORT", 5001))
@@ -56,8 +66,9 @@ def build_kd_tree(dataset_folder):
     embder = Embedder()
     R = []
     for x, y in loader:
-        embedding = embder.embed_one(x)[0]
+        embedding = embder.embed_one(x)
         if embedding is not None:
+            embedding = embedding[0]
             R.append((embedding, y))
     kdtree = Node(K=EMBEDDING_SIZE).build_kd_tree(R)
 
@@ -72,13 +83,14 @@ def build_kd_tree(dataset_folder):
 
 
 def build_indexes():
-    # downloadDirectoryFroms3(BUCKET_NAME, REMOTE_DIRECTORY_NAME)
+    downloadDirectoryFroms3(BUCKET_NAME, REMOTE_DIRECTORY_NAME)
 
     sub = [os.path.join(REMOTE_DIRECTORY_NAME, o) for o in os.listdir(REMOTE_DIRECTORY_NAME)
            if os.path.isdir(os.path.join(REMOTE_DIRECTORY_NAME, o))]
 
     for dataset_folder in sub:
         build_kd_tree(dataset_folder)
+
 
 
 
@@ -118,6 +130,9 @@ def get_brute_force():
 @app.route("/who_tree", methods=["GET"])
 def get_name():
     embedding = request.args.get('embedding')
+    embedding = embedding.replace('[', '')
+    embedding = embedding.replace(']', '')
+    embedding = np.fromstring(embedding, dtype=float, sep=', ')
     return idx_to_class[kdtree.get_nn(embedding, 1)[0][1]]
 
 

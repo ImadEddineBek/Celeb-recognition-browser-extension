@@ -10,6 +10,7 @@ from flask_cors import CORS
 from loguru import logger
 from pandas.io.s3 import s3fs
 from waitress import serve
+from configparser import ConfigParser
 
 from embeddings import Embedder
 from index import Node
@@ -24,9 +25,17 @@ from PIL import Image
 import requests
 from io import BytesIO
 
+config = ConfigParser()
+config.read('config.ini')
+FACE_THRESHOLD = config.getfloat('main', 'face_threshold')
+METHOD = config.get('main', 'method')
+CUDA = config.getboolean('main', 'cuda')
+DEBUG_ENV = config.getboolean('main', 'debug')
+
 from index_builder import get_index, get_name, get_brute_force
 
-DEBUG_ENV = bool(os.getenv("DEBUG_ENV", False))
+
+# DEBUG_ENV = bool(os.getenv("DEBUG_ENV", False))
 
 
 #
@@ -109,11 +118,16 @@ def get_metrics():
         P, E = embeddings.size()
         name = ""
         for i in range(P):
+            if METHOD == "Exact_Search":
+                function_call = "who_brute"
+            else:
+                function_call = "who_tree"
+
             if type == 'friends':
-                r = requests.get(f'http://0.0.0.0:5001/who_brute?embedding={list(embeddings[i].numpy())}')
+                r = requests.get(f'http://0.0.0.0:5001/{function_call}?embedding={list(embeddings[i].numpy())}')
                 name += r.text + "    "
             else:
-                r = requests.get(f'http://0.0.0.0:5002/who_brute?embedding={list(embeddings[i].numpy())}')
+                r = requests.get(f'http://0.0.0.0:5002/{function_call}?embedding={list(embeddings[i].numpy())}')
                 name += r.text + "    "
             # name += get_brute_force(embeddings[i], 'celebs.index') + "    "
             # json_dump = json.dumps({"person": name}, cls=NumpyEncoder)
@@ -190,15 +204,6 @@ def get_params():
 
 
 def launch_instances():
-    # print(sys.executable)
-    DETACHED_PROCESS = 0x00000008
-    my_env = os.environ.copy()
-    # my_env["INDEX_TYPE"] = 'friends.index'
-    # my_env["PORT"] = '5001'
-    # logger.info('here')
-    # logger.info(subprocess.check_output([sys.executable, "index_builder.py"]))
-    # os.spawnl(os.P_NOWAIT, 'INDEX_TYPE=friends.index PORT=5001' + sys.executable + ' index_builder.py', [''])
-    # os.spawnl(os.P_NOWAIT, 'INDEX_TYPE=celebs.index PORT=5002' + sys.executable + ' index_builder.py', [''])
     logger.info('Instances are up')
     pid = subprocess.Popen(
         [sys.executable, "index_builder.py", '--port', str(5001), '--index_type', 'friends.index']).pid
@@ -207,16 +212,6 @@ def launch_instances():
     pid = subprocess.Popen(
         [sys.executable, "index_builder.py", '--port', str(5002), '--index_type', 'celebs.index']).pid
     logger.info("celebrities: pid {}, port {}".format(pid, 5002))
-
-    # my_env = os.environ.copy()
-    # my_env["INDEX_TYPE"] = 'celebs.index'
-    # my_env["PORT"] = '5002'
-    #
-    # pid = subprocess.call([sys.executable, "index_builder.py"], env=my_env,
-    #                       ).pid
-    # logger.info("pid ", pid)
-    # os.spawnl(os.P_NOWAIT, 'INDEX_TYPE=friends.index PORT=5001' + sys.executable + 'index_builder')
-    # os.spawnl(os.P_NOWAIT, 'INDEX_TYPE=celebs.index PORT=5002' + sys.executable + 'index_builder')
 
 
 if __name__ == "__main__":

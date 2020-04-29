@@ -21,10 +21,12 @@ class Embedder:
 
     def embed_one(self, img):
         x_aligned, _ = self.face_detector(img, return_prob=True)
-        # logger.info(x_aligned.size())
-        F, C, H, W = x_aligned.size()
-        x_aligned = x_aligned.view(F, C, H, W)
-        embeddings = None
         if x_aligned is not None:
-            embeddings = self.face_embeder(x_aligned).detach().cpu()
-        return embeddings
+            # logger.info(x_aligned.size())
+            F, C, H, W = x_aligned.size()
+            x_aligned = x_aligned.view(F, C, H, W)
+            embeddings = None
+            if x_aligned is not None:
+                embeddings = self.face_embeder(x_aligned).detach().cpu()
+            return embeddings
+        return None
