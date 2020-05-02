@@ -1,5 +1,0 @@
-{
-  "face_threshold": 0.2,
-  "method": "exact_search",
-  "cuda": false
-}

@@ -19,7 +19,7 @@ def collate_fn(x):
 
 
 def update_index(index_type, dataset_folder):
-    logger.info(index_type + dataset_folder)
+    # logger.info(index_type + dataset_folder)
     # return ''
     with open('indexes/' + index_type + '.index', 'rb') as index_file:
         kdtree = pickle.load(index_file)
@@ -41,12 +41,21 @@ def update_index(index_type, dataset_folder):
         embedding = embder.embed_one(x)
         if embedding is not None:
             embedding = embedding[0]
-            kdtree.kd_insert_with_split((embedding, y))
-            data.append((embedding, y))
+            kdtree.kd_insert_with_split((embedding, y + prev))
+            data.append((embedding, y + prev))
     for i, c in dataset.idx_to_class.items():
         idx_to_class[i] = c
 
     logger.info(idx_to_class)
+
+    with open('indexes/' + dataset_folder + '_.idx_to_class', 'wb') as idx_to_class_file:
+        pickle.dump(idx_to_class, idx_to_class_file)
+
+    with open('indexes/' + dataset_folder + '_.index', 'wb') as index_file:
+        pickle.dump(kdtree, index_file)
+
+    with open('indexes/' + dataset_folder + '_.data', 'wb') as data_file:
+        pickle.dump(data, data_file)
     return 'done'
 
 

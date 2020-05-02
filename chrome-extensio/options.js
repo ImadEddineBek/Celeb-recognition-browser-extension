@@ -81,7 +81,7 @@ chrome.storage.local.get('savedImages', function (element) {
         Http.onreadystatechange = (e) => {
             var bkg = chrome.extension.getBackgroundPage();
             // bkg.console.log(Http);
-            if (Http.responseText.length < 2) {
+            if (Http.responseText.length < 2 || Http.responseText.length > 150) {
                 hrtext.innerText = "Server Side issues, It's OK bro"
             } else {
                 hrtext.innerText = Http.responseText

@@ -92,9 +92,11 @@ def build_indexes():
         build_kd_tree(dataset_folder)
 
 
-
-
 def get_index(index_type):
+    if index_type == 'celebs.index':
+        index_type = 'added_.index'
+
+
     with open('indexes/' + index_type, 'rb') as index_file:
         kdtree = pickle.load(index_file)
 
