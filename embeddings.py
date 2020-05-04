@@ -1,6 +1,8 @@
 from models.mtcnn import MTCNN
 from models.inception_resnet_v1 import InceptionResnetV1
 import torch
+from configparser import ConfigParser
+
 from loguru import logger
 from torch.utils.data import DataLoader
 from torchvision import datasets
@@ -8,10 +10,15 @@ import numpy as np
 import pandas as pd
 import os
 
+config = ConfigParser()
+config.read('config.ini')
+
+CUDA = config.getboolean('main', 'cuda')
+
 
 class Embedder:
     def __init__(self, ):
-        device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+        device = torch.device('cuda:0' if torch.cuda.is_available() and CUDA else 'cpu')
         print('Running on device: {}'.format(device))
         self.face_detector = MTCNN(image_size=160, margin=0, min_face_size=20,
                                    thresholds=[0.6, 0.7, 0.7], factor=0.709, post_process=True,
@@ -30,3 +37,7 @@ class Embedder:
                 embeddings = self.face_embeder(x_aligned).detach().cpu()
             return embeddings
         return None
+
+
+if __name__ == '__main__':
+    pass

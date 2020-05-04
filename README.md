@@ -16,6 +16,7 @@
     pip install -r requirements.txt
     ```
 1. Add the plugin to chrome:
+
     ![Alt Text](examples/install-plugin.gif)
 
 
@@ -23,6 +24,7 @@
     ```bash
     streamlit run config.py
     ```
+    
     ![Alt Text](examples/run-config.gif)
     
 1. Run the service:

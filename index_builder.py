@@ -125,6 +125,9 @@ def get_brute_force():
         if cur < dist:
             dist = cur
             closest = y
+    if closest > 1 + FACE_THRESHOLD:
+        logger.info("Unknown face")
+        return "Unknown face Similar to idx_to_class[closest]"
     logger.info(idx_to_class[closest] + '  ' + str(dist))
     return idx_to_class[closest]
 
